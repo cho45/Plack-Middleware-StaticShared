@@ -37,54 +37,59 @@ $m->wrap(sub {
 
 test_psgi $m => sub { my $server = shift;
 	subtest "js" => sub {
-		{ my $res = $server->(GET '/.shared.js:v1:/js/a.js,/js/b.js,/js/c.js');
-			SKIP: {
-				skip "can't test on forked server", 1 unless $Plack::Test::Impl eq 'MockHTTP';
-				is $filtered, 1;
-			};
-			is $res->code, 200;
-			is $res->header('Content-Type'), 'text/javascript; charset=utf8';
-			ok $res->header('ETag');
-			is $res->content, "aaajs\n\nbbbjs\n\ncccjs\n";
-		};
+		my $res = $server->(GET '/.shared.js:v1:/js/a.js,/js/b.js,/js/c.js');
 
-		{ my $res = $server->(GET '/.shared.js:v1:/js/a.js,/js/b.js,/js/c.js');
-			SKIP: {
-				skip "can't test on forked server", 1 unless $Plack::Test::Impl eq 'MockHTTP';
-				is $filtered, 1, 'cache';
-			};
-			is $res->code, 200;
+		SKIP: {
+			skip "can't test on forked server", 1 unless $Plack::Test::Impl eq 'MockHTTP';
+			is $filtered, 1;
 		};
+		is $res->code, 200;
+		is $res->header('Content-Type'), 'text/javascript; charset=utf8';
+		ok $res->header('ETag');
+		is $res->content, "aaajs\n\nbbbjs\n\ncccjs\n";
+
+		done_testing;
+	};
+
+	subtest "js (second)" => sub {
+		my $res = $server->(GET '/.shared.js:v1:/js/a.js,/js/b.js,/js/c.js');
+		SKIP: {
+			skip "can't test on forked server", 1 unless $Plack::Test::Impl eq 'MockHTTP';
+			is $filtered, 1, 'cache';
+		};
+		is $res->code, 200;
+		is $res->header('Content-Type'), 'text/javascript; charset=utf8';
+		ok $res->header('ETag');
+		is $res->content, "aaajs\n\nbbbjs\n\ncccjs\n";
 
 		done_testing;
 	};
 
 	subtest "css" => sub {
-		{ my $res = $server->(GET '/.shared.css:v1:/css/a.css,/css/b.css,/css/c.css');
-			is $res->code, 200;
-			is $res->header('Content-Type'), 'text/css; charset=utf8';
-			ok $res->header('ETag');
-			is $res->content, "aaacss\n\nbbbcss\n\nccccss\n";
-		};
+		my $res = $server->(GET '/.shared.css:v1:/css/a.css,/css/b.css,/css/c.css');
+		is $res->code, 200;
+		is $res->header('Content-Type'), 'text/css; charset=utf8';
+		ok $res->header('ETag');
+		is $res->content, "aaacss\n\nbbbcss\n\nccccss\n";
 
 		done_testing;
 	};
 
 	subtest "filter" => sub {
-		{ my $res = $server->(GET '/.shared.js:v1:/js/a.js,/js/b.js,/js/c.js,/js/replace.js');
-			is $res->code, 200;
-			is $res->header('Content-Type'), 'text/javascript; charset=utf8';
-			ok $res->header('ETag');
-			is $res->content, "aaajs\n\nbbbjs\n\ncccjs\n\nXXX foobar XXX\n";
-		};
+		my $res = $server->(GET '/.shared.js:v1:/js/a.js,/js/b.js,/js/c.js,/js/replace.js');
+		is $res->code, 200;
+		is $res->header('Content-Type'), 'text/javascript; charset=utf8';
+		ok $res->header('ETag');
+		is $res->content, "aaajs\n\nbbbjs\n\ncccjs\n\nXXX foobar XXX\n";
+
 		done_testing;
 	};
 
 	subtest "fallback" => sub {
-		{ my $res = $server->(GET '/');
-			is $res->code, 200;
-			is $res->content, 'app';
-		};
+		my $res = $server->(GET '/');
+		is $res->code, 200;
+		is $res->content, 'app';
+
 		done_testing;
 	};
 
