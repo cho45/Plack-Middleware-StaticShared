@@ -81,22 +81,50 @@ sub concat {
 1;
 __END__
 
+1;
+__END__
 
+=head1 NAME
 
-enable "StaticShared",
-	cache => Cache::Memcached::Fast->new(servers => [qw/192.168.0.11:11211/]),
-	base  => './static/',
-	binds => [
-		{
-			prefix       => '/.shared.js',
-			content_type => 'text/javascript; charset=utf8',
-			filter       => sub {
-				JavaScript->squish($_);
-			}
-		},
-		{
-			prefix       => '/.shared.css',
-			content_type => 'text/css; charset=utf8',
-		}
-	];
+Plack::Middleware::StaticShared - concat some static files to one resource
+
+=head1 SYNOPSIS
+
+  use Plack::Builder;
+  use JavaScript::Squish;
+
+  builder {
+      enable "StaticShared",
+          cache => Cache::Memcached::Fast->new(servers => [qw/192.168.0.11:11211/]),
+          base  => './static/',
+          binds => [
+              {
+                  prefix       => '/.shared.js',
+                  content_type => 'text/javascript; charset=utf8',
+                  filter       => sub {
+                      JavaScript::Squish->squish->squish($_);
+                  }
+              },
+              {
+                  prefix       => '/.shared.css',
+                  content_type => 'text/css; charset=utf8',
+              }
+          ];
+
+      $app;
+  };
+
+=head1 DESCRIPTION
+
+Plack::Middleware::StaticShared provides resource end point which concat some static files to one resource for reducing http requests.
+
+=head1 AUTHOR
+
+cho45
+
+=head1 SEE ALSO
+
+L<Plack::Middleware> L<Plack::Builder>
+
+=cut
 
