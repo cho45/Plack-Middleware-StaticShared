@@ -91,7 +91,7 @@ Plack::Middleware::StaticShared - concat some static files to one resource
 =head1 SYNOPSIS
 
   use Plack::Builder;
-  use JavaScript::Squish;
+  use WebService::Google::Closure;
 
   builder {
       enable "StaticShared",
@@ -102,7 +102,7 @@ Plack::Middleware::StaticShared - concat some static files to one resource
                   prefix       => '/.shared.js',
                   content_type => 'text/javascript; charset=utf8',
                   filter       => sub {
-                      JavaScript::Squish->squish->squish($_);
+                      WebService::Google::Closure->new(js_code => $_)->compile->code;
                   }
               },
               {
