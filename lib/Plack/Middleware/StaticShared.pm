@@ -23,7 +23,7 @@ sub call {
 		my $prefix = $static->{prefix};
 		# Some browsers (eg. Firefox) always access if the url has query string,
 		# so use `:' for parameters
-		my ($version, $files) = ($env->{PATH_INFO} =~ /^$prefix:([^:]+):(.+)$/) or next;
+		my ($version, $files) = ($env->{PATH_INFO} =~ /^$prefix:([^:\s]{1,32}):(.+)$/) or next;
 		my $req = Plack::Request->new($env);
 		my $res = $req->new_response;
 

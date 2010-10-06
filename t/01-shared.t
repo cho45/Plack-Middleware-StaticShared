@@ -93,6 +93,24 @@ test_psgi $m => sub { my $server = shift;
 		done_testing;
 	};
 
+	subtest "key length" => sub {
+		{
+			my $key = 'x' x 33;
+			my $res = $server->(GET "/.shared.js:$key:/js/a.js,/js/b.js,/js/c.js,/js/replace.js");
+			is $res->code, 200;
+			is $res->content, 'app';
+		};
+
+		{
+			my $key = 'x' x 32;
+			my $res = $server->(GET "/.shared.js:$key:/js/a.js,/js/b.js,/js/c.js,/js/replace.js");
+			is $res->code, 200;
+			is $res->header('Content-Type'), 'text/javascript; charset=utf8';
+			ok $res->header('ETag');
+			is $res->content, "aaajs\n\nbbbjs\n\ncccjs\n\nXXX foobar XXX\n";
+		};
+		done_testing;
+	};
 };
 
 done_testing;
