@@ -1,7 +1,7 @@
 package Plack::Middleware::StaticShared;
-
 use strict;
 use warnings;
+
 use parent qw(Plack::Middleware);
 use Plack::Request;
 use LWP::Simple qw($ua);
@@ -9,6 +9,8 @@ use Digest::SHA1 qw(sha1_hex);
 use DateTime::Format::HTTP;
 use DateTime;
 use Path::Class;
+
+our $VERSION = '0.01';
 
 __PACKAGE__->mk_accessors(qw(cache base binds verifier));
 
