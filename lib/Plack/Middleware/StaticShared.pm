@@ -1,7 +1,7 @@
 package Plack::Middleware::StaticShared;
-
 use strict;
 use warnings;
+
 use parent qw(Plack::Middleware);
 use Plack::Request;
 use LWP::Simple qw($ua);
@@ -10,7 +10,9 @@ use DateTime::Format::HTTP;
 use DateTime;
 use Path::Class;
 
-__PACKAGE__->mk_accessors(qw(cache base binds));
+our $VERSION = '0.01';
+
+__PACKAGE__->mk_accessors(qw(cache base binds verifier));
 
 sub new {
 	my ($class, @args) = @_;
@@ -26,6 +28,11 @@ sub call {
 		my ($version, $files) = ($env->{PATH_INFO} =~ /^$prefix:([^:\s]{1,32}):(.+)$/) or next;
 		my $req = Plack::Request->new($env);
 		my $res = $req->new_response;
+
+		if ($self->verifier && !$self->verifier->(local $_ = $version, $prefix)) {
+			$res->code(400);
+			return $res->finalize;
+		}
 
 		my $key = join(':', $version, $files);
 		my $etag = sha1_hex($key);
@@ -110,13 +117,44 @@ Plack::Middleware::StaticShared - concat some static files to one resource
                   content_type => 'text/css; charset=utf8',
               }
           ];
+          verifier => sub {
+              my ($version, $prefix) = @_;
+              $version =~ /v\d/
+          },
 
       $app;
   };
 
+And concatnated resources are provided as like following:
+
+  /.shared.js:v1:/js/foolib.js,/js/barlib.js,/js/app.js
+      => concat following: ./static/js/foolib.js, ./static/js/barlib.js, ./static/js/app.js
+
 =head1 DESCRIPTION
 
 Plack::Middleware::StaticShared provides resource end point which concat some static files to one resource for reducing http requests.
+
+=head1 CONFIGURATIONS
+
+=over 4
+
+=item cache (required)
+
+A cache object for caching concatnated resource content.
+
+=item base (required)
+
+Base directory which concatnating resource located in.
+
+=item binds (required)
+
+Definition of concatnated resources.
+
+=item verifier (optional)
+
+A subroutine for verifying version string to avoid attacking of cache flooding.
+
+=back
 
 =head1 AUTHOR
 
