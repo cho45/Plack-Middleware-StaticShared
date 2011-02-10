@@ -1,4 +1,4 @@
 use strict;
 use Test::More tests => 1;
 
-BEGIN { use_ok 'Plack::Middleware::ServerStatus' }
+BEGIN { use_ok 'Plack::Middleware::StaticShared' }
