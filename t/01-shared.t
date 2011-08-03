@@ -46,7 +46,7 @@ test_psgi $m => sub { my $server = shift;
 		is $res->code, 200;
 		is $res->header('Content-Type'), 'text/javascript; charset=utf8';
 		ok $res->header('ETag');
-		is $res->content, "aaajs\n\nbbbjs\n\ncccjs\n";
+		is $res->content, "aaajs\nbbbjs\ncccjs\n";
 
 		done_testing;
 	};
@@ -60,7 +60,7 @@ test_psgi $m => sub { my $server = shift;
 		is $res->code, 200;
 		is $res->header('Content-Type'), 'text/javascript; charset=utf8';
 		ok $res->header('ETag');
-		is $res->content, "aaajs\n\nbbbjs\n\ncccjs\n";
+		is $res->content, "aaajs\nbbbjs\ncccjs\n";
 
 		done_testing;
 	};
@@ -70,7 +70,7 @@ test_psgi $m => sub { my $server = shift;
 		is $res->code, 200;
 		is $res->header('Content-Type'), 'text/css; charset=utf8';
 		ok $res->header('ETag');
-		is $res->content, "aaacss\n\nbbbcss\n\nccccss\n";
+		is $res->content, "aaacss\nbbbcss\nccccss\n";
 
 		done_testing;
 	};
@@ -80,7 +80,7 @@ test_psgi $m => sub { my $server = shift;
 		is $res->code, 200;
 		is $res->header('Content-Type'), 'text/javascript; charset=utf8';
 		ok $res->header('ETag');
-		is $res->content, "aaajs\n\nbbbjs\n\ncccjs\n\nXXX foobar XXX\n";
+		is $res->content, "aaajs\nbbbjs\ncccjs\nXXX foobar XXX\n";
 
 		done_testing;
 	};
@@ -107,7 +107,7 @@ test_psgi $m => sub { my $server = shift;
 			is $res->code, 200;
 			is $res->header('Content-Type'), 'text/javascript; charset=utf8';
 			ok $res->header('ETag');
-			is $res->content, "aaajs\n\nbbbjs\n\ncccjs\n\nXXX foobar XXX\n";
+			is $res->content, "aaajs\nbbbjs\ncccjs\nXXX foobar XXX\n";
 		};
 		done_testing;
 	};
