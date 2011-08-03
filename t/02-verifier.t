@@ -40,7 +40,7 @@ test_psgi $m => sub { my $server = shift;
 		is $res->code, 200;
 		is $res->header('Content-Type'), 'text/javascript; charset=utf8';
 		ok $res->header('ETag');
-		is $res->content, "aaajs\n\nbbbjs\n\ncccjs\n";
+		is $res->content, "aaajs\nbbbjs\ncccjs\n";
 
 		done_testing;
 	};
