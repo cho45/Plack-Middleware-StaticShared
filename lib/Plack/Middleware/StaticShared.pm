@@ -42,11 +42,11 @@ sub call {
 			$res->code(304);
 		} else {
 			my $content = eval {
-				my $ret = $self->cache->get($key);
+				my $ret = $self->cache->get($etag);
 				if (not defined $ret) {
 					$ret = $self->concat(split /,/, $files);
 					$ret = $static->{filter}->(local $_ = $ret) if $static->{filter};
-					$self->cache->set($key => $ret);
+					$self->cache->set($etag => $ret);
 				}
 				$ret;
 			};
