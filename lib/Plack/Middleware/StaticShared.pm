@@ -10,7 +10,7 @@ use DateTime::Format::HTTP;
 use DateTime;
 use Path::Class;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 __PACKAGE__->mk_accessors(qw(cache base binds verifier));
 

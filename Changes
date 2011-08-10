@@ -1,3 +1,8 @@
+2011-08-10  SATOH Hiroh <cho45@lowreal.net>
+
+	* 0.03:
+	Fix fail to cache caused by invalid key
+
 2011-02-10  SATOH Hiroh <cho45@lowreal.net>
 
 	* 0.02:
