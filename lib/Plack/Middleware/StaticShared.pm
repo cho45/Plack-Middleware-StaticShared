@@ -79,7 +79,9 @@ sub concat {
 	my $base = dir($self->base);
 	join("",
 		map {
-			$base->file($_)->slurp;
+			my $file = $base->file($_);
+			$file->resolve;
+			$base->contains($file) ? $file->slurp : '';
 		}
 		@files
 	);

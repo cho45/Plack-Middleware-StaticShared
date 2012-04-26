@@ -111,6 +111,18 @@ test_psgi $m => sub { my $server = shift;
 		};
 		done_testing;
 	};
+
+
+	subtest "upper directory" => sub {
+		my $res = $server->(GET '/.shared.css:v1:/css/a.css,../00_compile.t');
+		is $res->code, 200;
+		is $res->header('Content-Type'), 'text/css; charset=utf8';
+		ok $res->header('ETag');
+		is $res->content, "aaacss\n";
+
+		done_testing;
+	};
+
 };
 
 done_testing;
