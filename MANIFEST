@@ -1,4 +1,3 @@
-.gitignore
 Changes
 env
 inc/Cache/MemoryCache.pm

@@ -1,3 +1,8 @@
+2012-04-26  SATOH Hiroh <cho45@lowreal.net>
+
+	* 0.04:
+	Fix vulnerability of directory traversal (by onishi)
+
 2011-08-10  SATOH Hiroh <cho45@lowreal.net>
 
 	* 0.03:
