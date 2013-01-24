@@ -1,3 +1,8 @@
+2013-01-24  SATOH Hiroh <cho45@lowreal.net>
+
+	* 0.05:
+	Fix bug on invalid file names (by shibayu36)
+
 2012-04-26  SATOH Hiroh <cho45@lowreal.net>
 
 	* 0.04:
