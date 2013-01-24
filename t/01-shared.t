@@ -123,6 +123,14 @@ test_psgi $m => sub { my $server = shift;
 		done_testing;
 	};
 
+	subtest "contain not exist file" => sub {
+		my $res = $server->(GET "/.shared.js:v1:/js/a.js,/js/b.js,/js/not-exist.js");
+		is $res->code, 200;
+		is $res->header('Content-Type'), 'text/javascript; charset=utf8';
+		ok $res->header('ETag');
+		is $res->content, "aaajs\nbbbjs\n";
+		done_testing;
+	};
 };
 
 done_testing;
