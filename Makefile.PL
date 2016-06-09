@@ -1,4 +1,5 @@
 BEGIN {
+	use inc::Module::Install;
 	my @mip = qw(
 		Module::Install::AuthorTests
 		Module::Install::Repository
@@ -18,7 +19,6 @@ BEGIN {
 	}
 };
 
-use inc::Module::Install;
 name 'Plack-Middleware-StaticShared';
 all_from 'lib/Plack/Middleware/StaticShared.pm';
 
