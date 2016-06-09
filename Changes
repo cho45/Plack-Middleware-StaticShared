@@ -1,6 +1,5 @@
-2016-06-09  SATOH Hiroh <cho45@lowreal.net>
+{{$NEXT}}
 
-	* 0.06:
 	Fix Makefile.PL (by @motemen)
 
 2013-01-24  SATOH Hiroh <cho45@lowreal.net>
