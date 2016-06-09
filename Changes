@@ -1,6 +1,9 @@
 {{$NEXT}}
 
+0.06 2016-06-09T03:53:08Z
+
 	Fix Makefile.PL (by @motemen)
+	Change release packger to minila.
 
 2013-01-24  SATOH Hiroh <cho45@lowreal.net>
 

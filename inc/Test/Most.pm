@@ -30,7 +30,7 @@ BEGIN {
 
 #line 38
 
-our $VERSION = '0.33';
+our $VERSION = '0.06';
 $VERSION = eval $VERSION;
 
 #line 437
